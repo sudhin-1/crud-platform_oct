@@ -1,0 +1,74 @@
+.table-container {
+	margin: 10px;
+	padding: 1em;
+
+	flex-grow: 1;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+}
+
+.entries-container {
+	display: flex;
+	justify-content: space-between;
+}
+
+.entries {
+	display: flex;
+	gap: 5px;
+}
+
+.btn-details {
+	border: none;
+	background-color: transparent;
+}
+
+.day-pills {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1em;
+	font-weight: 500;
+}
+
+.day {
+	padding: 5px 10px;
+	border-radius: 15px;
+}
+
+.attendance-select {
+	padding: 5px 10px;
+	cursor: pointer;
+}
+
+.present {
+	background-color: lightgreen;
+}
+
+.late {
+	background-color: aqua;
+}
+
+.absent {
+	background-color: lightcoral;
+}
+
+.holiday {
+	background-color: yellow;
+}
+
+.leave {
+	background-color: violet;
+}
+
+.pagination-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem;
+}
+
+.btn-pagination {
+	background-color: transparent;
+}
