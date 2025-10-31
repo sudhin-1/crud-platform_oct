@@ -227,7 +227,7 @@ function WeeklyAttendance() {
 	}
 
 	return (
-		<div className="table-container shadow">
+		<div className="table-container shadow mt-5">
 			<div className="entries-container">
 				{/* select number of entries to show  */}
 				<div className="entries">

@@ -1,0 +1,32 @@
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1.2em 1.7em;
+	background-color: #ff6f3c;
+	color: #fff;
+}
+
+.title {
+	text-decoration: none;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	gap: 0.2em;
+	font-size: 2.5rem;
+}
+
+.sign-in {
+	text-decoration: none;
+	font-weight: 600;
+	color: inherit;
+	font-size: 1.2rem;
+	border: 1px solid white;
+	padding: 5px 10px;
+	transition: all 0.2s ease;
+}
+
+.sign-in:hover {
+	background-color: #fff;
+	color: #ff6f3c;
+}
