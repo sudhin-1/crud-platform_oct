@@ -16,7 +16,7 @@ function Header() {
 			<header className="header">
 				<Link to={"/"} className="title">
 					<FontAwesomeIcon icon={faClipboardUser} bounce={isBouncing} />
-					<h1>Mark Me</h1>
+					<h1>MarkMe</h1>
 				</Link>
 				<div>
 					<Link to={"/sign"} className="sign-in">
