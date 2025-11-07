@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../css/Header.css";
 
-function Header() {
+function Header(props) {
 	const [isBouncing, setIsBouncing] = useState(true);
 
 	useEffect(() => {
@@ -19,9 +19,16 @@ function Header() {
 					<h1>MarkMe</h1>
 				</Link>
 				<div>
+					{props.islogged?
+				(
 					<Link to={"/sign"} className="sign-in">
 						SIGN IN
 					</Link>
+				):(<Link to={"/home"} className="sign-in">
+				WELCOME
+			</Link>)
+				}
+					
 				</div>
 			</header>
 		</>

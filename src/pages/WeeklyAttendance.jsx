@@ -2,135 +2,44 @@ import { faCalendarDays } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Table from "react-bootstrap/Table";
 import "../css/WeeklyAttendance.css";
-import { useState } from "react";
-
+import { useState, useEffect} from "react";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const initialUsers = [
-	{
-		id: 1,
-		name: "Anjith Sinah",
-		todaysAttendance: "present",
-		attendance: {
-			monday: "present",
-			tuesday: "late",
-			wednesday: "absent",
-			thursday: "present",
-			friday: "present",
-		},
-	},
-	{
-		id: 2,
-		name: "John Doe",
-		todaysAttendance: "present",
-		attendance: {
-			monday: "late",
-			tuesday: "present",
-			wednesday: "absent",
-			thursday: "present",
-			friday: "late",
-		},
-	},
-	{
-		id: 3,
-		name: "Mary Will",
-		todaysAttendance: "present",
-		attendance: {
-			monday: "present",
-			tuesday: "present",
-			wednesday: "present",
-			thursday: "present",
-			friday: "absent",
-		},
-	},
-	{
-		id: 4,
-		name: "Bruce Wayne",
-		todaysAttendance: "present",
-		attendance: {
-			monday: "present",
-			tuesday: "present",
-			wednesday: "late",
-			thursday: "present",
-			friday: "present",
-		},
-	},
-	{
-		id: 5,
-		name: "Peter Parker",
-		todaysAttendance: "present",
-		attendance: {
-			monday: "late",
-			tuesday: "present",
-			wednesday: "absent",
-			thursday: "present",
-			friday: "late",
-		},
-	},
-	{
-		id: 6,
-		name: "Clark Kent",
-		todaysAttendance: "present",
-		attendance: {
-			monday: "present",
-			tuesday: "late",
-			wednesday: "absent",
-			thursday: "present",
-			friday: "absent",
-		},
-	},
-	{
-		id: 7,
-		name: "Bruce Banner",
-		todaysAttendance: "present",
-		attendance: {
-			monday: "present",
-			tuesday: "present",
-			wednesday: "late",
-			thursday: "present",
-			friday: "present",
-		},
-	},
-	{
-		id: 8,
-		name: "Penny Poipole",
-		todaysAttendance: "present",
-		attendance: {
-			monday: "late",
-			tuesday: "present",
-			wednesday: "absent",
-			thursday: "present",
-			friday: "late",
-		},
-	},
-	{
-		id: 9,
-		name: "Peter Pan",
-		todaysAttendance: "present",
-		attendance: {
-			monday: "present",
-			tuesday: "present",
-			wednesday: "present",
-			thursday: "present",
-			friday: "present",
-		},
-	},
-	{
-		id: 10,
-		name: "Tony Stark",
-		todaysAttendance: "present",
-		attendance: {
-			monday: "late",
-			tuesday: "present",
-			wednesday: "absent",
-			thursday: "present",
-			friday: "late",
-		},
-	},
+	
 ];
 
 function WeeklyAttendance() {
+	const navigate = useNavigate();
+
+  const handleLogout = () => {
+    const user = localStorage.getItem("admin");
+
+    if (user) {
+      // delete the key
+      localStorage.removeItem("admin");
+      console.log("Logged out");
+      navigate("/sign");
+    } else {
+      // nothing to delete, so just go to signin
+      navigate("/sign");
+    }
+  };
+  if(!localStorage.getItem("admin")){
+	navigate("/sign");
+  }
+	useEffect(() => {
+		fetch("http://localhost:3000/students")
+		  .then((res) => res.json())
+		  .then((data) => {
+			setUsers(data);
+		  })
+		  .catch((err) => console.log("Error fetching users:", err));
+	  }, []);
+	  
 	const isAdminLogin = true;
 
-	const [users, setUsers] = useState(initialUsers);
+	const [users, setUsers] = useState([]);
 	const [entriesToShow, setEntriesToShow] = useState(10);
 
 	// pagination
@@ -138,20 +47,77 @@ function WeeklyAttendance() {
 
 	// search students
 	const [searchQuery, setSearchQuery] = useState("");
-
-	function handleAttendanceChange(userId, newStatus) {
-		setUsers((prevUser) => {
-			return prevUser.map((user) => {
-				if (user.id === userId) {
-					return {
-						...user,
-						todaysAttendance: newStatus,
-					};
-				}
-				return user;
-			});
+	function getLastWeekAttendance(attendance) {
+		if (!attendance) return {};
+	  
+		const today = new Date();
+		const weekAgo = new Date();
+		weekAgo.setDate(today.getDate() - 7);
+	  
+		const lastWeekEntries = attendance.filter(a => {
+		  const d = new Date(a.date);
+		  return d >= weekAgo && d <= today;
 		});
-	}
+	  
+		// Map day number → string key
+		const dayMap = {
+		  1: "monday",
+		  2: "tuesday",
+		  3: "wednesday",
+		  4: "thursday",
+		  5: "friday"
+		};
+	  
+		// Create final object: { monday: "present", tuesday: "absent", ...}
+		const result = {
+		  monday: "",
+		  tuesday: "",
+		  wednesday: "",
+		  thursday: "",
+		  friday: ""
+		};
+	  
+		lastWeekEntries.forEach(entry => {
+		  const d = new Date(entry.date);
+		  const day = d.getDay(); // 1 = Monday ... 5 = Friday
+		  if (dayMap[day]) {
+			result[dayMap[day]] = entry.status;
+		  }
+		});
+	  
+		return result;
+	  }
+	  
+	  function handleAttendanceChange(userId, newStatus) {
+		const today = new Date().toISOString().split("T")[0];
+	  
+		setUsers(prev =>
+		  prev.map(user =>
+			user.id === userId
+			  ? { 
+				  ...user,
+				  attendance: [
+					...user.attendance.filter(a => a.date !== today), 
+					{ date: today, status: newStatus }
+				  ]
+				}
+			  : user
+		  )
+		);
+	  
+		fetch(`http://localhost:3000/students/${userId}`, {
+		  method: "PATCH",
+		  headers: { "Content-Type": "application/json" },
+		  body: JSON.stringify({
+			attendance: [
+			  ...users.find(u => u.id === userId).attendance.filter(a => a.date !== today),
+			  { date: today, status: newStatus }
+			]
+		  })
+		});
+	  }
+	  
+	  
 
 	const filteredUsers = users.filter((user) =>
 		user.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -190,14 +156,22 @@ function WeeklyAttendance() {
 				</td>
 			) : null}
 			<td className="text-center">
-				<div className="day-pills">
-					<div className={`day ${user.attendance.monday}`}>Mon</div>
-					<div className={`day ${user.attendance.tuesday}`}>Tue</div>
-					<div className={`day ${user.attendance.wednesday}`}>Wed</div>
-					<div className={`day ${user.attendance.thursday}`}>Thu</div>
-					<div className={`day ${user.attendance.friday}`}>Fri</div>
-				</div>
-			</td>
+  <div className="day-pills">
+    {(() => {
+      const week = getLastWeekAttendance(user.attendance);
+      return (
+        <>
+          <div className={`day ${week.monday}`}>Mon</div>
+          <div className={`day ${week.tuesday}`}>Tue</div>
+          <div className={`day ${week.wednesday}`}>Wed</div>
+          <div className={`day ${week.thursday}`}>Thu</div>
+          <div className={`day ${week.friday}`}>Fri</div>
+        </>
+      );
+    })()}
+  </div>
+</td>
+
 			<td className="text-center">
 				<button className="btn-details">
 					<FontAwesomeIcon icon={faCalendarDays} />
@@ -227,6 +201,16 @@ function WeeklyAttendance() {
 	}
 
 	return (
+		<>
+		<div className="d-flex gap-3" style={{margin:"10px"}}>
+		<Link to="/0/studentdetails" className="btn btn-primary">
+  View Student Details
+</Link>
+<Link to="/requests" className="btn btn-success">
+  Requests
+</Link>
+</div>
+
 		<div className="table-container shadow mt-5">
 			<div className="entries-container">
 				{/* select number of entries to show  */}
@@ -330,13 +314,20 @@ function WeeklyAttendance() {
 					<div className="absent" style={{ padding: "1em" }}></div>
 					<span style={{ fontWeight: "600" }}>Absent(3)</span>
 				</div>
-
+				<button 
+      className="btn btn-danger" 
+      onClick={handleLogout}
+      style={{ margin: "10px" }}
+    >
+      Logout
+    </button>
 				<div
 					className="labels"
 					style={{ display: "flex", gap: "10px", alignItems: "center" }}
 				></div>
 			</div>
 		</div>
+		</>
 	);
 }
 
