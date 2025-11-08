@@ -17,7 +17,7 @@ useEffect(()=>{
   }
 },[value])
 
-  const [adminlog,setadminloggedin]=useState("NO")
+  const [adminloginfo,setadminloggedin]=useState(FALSE)
 
   const [loggedIn,setLog]=useState(0)
 
@@ -55,8 +55,9 @@ useEffect(()=>{
 useEffect(() => {
   if (loggedIn) navigate("/dashboard");
 }, [loggedIn,navigate]);
+
 useEffect(()=>{
-  if(adminlog=="HMM"){
+  if(adminloginfo===TRUE){
     navigate("/attendance")
   }
 },[adminlog,navigate])
@@ -79,7 +80,7 @@ useEffect(()=>{
   const logadmin=()=>{
     if(loginfo=="admin" && logpass=="password"){
       localStorage.setItem("admin","admin")
-      setadminloggedin("HMM")
+      setadminloggedin(TRUE)
     }
   }
   const handleUserRegister = async () => {
