@@ -126,7 +126,7 @@ useEffect(()=>{
         {value === 0 && (
           <Box className="mt-4">
             <h4 className="text-center mb-3">
-              {isRegister ? "Admin Registration" : "Admin Login"}
+              {isRegister ? "Admin Registration" : "Admin Log"}
             </h4>
 
             <TextField label="Admin ID" variant="outlined" fullWidth margin="normal" onChange={(event)=>logadmininfo(event.target.value)}/>
