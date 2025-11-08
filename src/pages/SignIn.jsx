@@ -11,7 +11,7 @@ import {useNavigate} from "react-router-dom"
 
 export default function SignIn() {
 const navigate = useNavigate();
-  const [adminlog,setadminloggedin]=useState("NO")
+  const [adminlog,setadminloggedin]=useState(false)
 
   const [loggedIn,setLog]=useState(0)
 
@@ -49,9 +49,8 @@ const navigate = useNavigate();
 useEffect(() => {
   if (loggedIn) navigate("/dashboard");
 }, [loggedIn,navigate]);
-
 useEffect(()=>{
-  if(adminlog){
+  if(adminlog==true){
     navigate("/attendance")
   }
 },[adminlog,navigate])
