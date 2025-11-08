@@ -68,6 +68,7 @@ useEffect(() => {
   const logadmin=()=>{
     if(loginfo=="admin" && logpass=="password"){
       localStorage.setItem("admin","admin")
+      navigate("/attendance")
     }
   }
   const handleUserRegister = async () => {
