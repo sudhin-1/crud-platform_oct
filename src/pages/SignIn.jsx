@@ -11,6 +11,7 @@ import {useNavigate} from "react-router-dom"
 
 export default function SignIn() {
 const navigate = useNavigate();
+  const [adminlog,setadminloggedin]=useState(false)
 
   const [loggedIn,setLog]=useState(0)
 
@@ -48,7 +49,11 @@ const navigate = useNavigate();
 useEffect(() => {
   if (loggedIn) navigate("/dashboard");
 }, [loggedIn,navigate]);
-
+useEffect(()=>{
+  if(adminlog==true){
+    navigate("/attendance")
+  }
+},[adminlog,navigate])
   const [value, setValue] = useState(0); // active tab
   const [isRegister, setIsRegister] = useState(false); // login/register toggle
 
@@ -68,7 +73,7 @@ useEffect(() => {
   const logadmin=()=>{
     if(loginfo=="admin" && logpass=="password"){
       localStorage.setItem("admin","admin")
-      navigate("/attendance")
+      setadminloggedin(true)
     }
   }
   const handleUserRegister = async () => {
