@@ -11,13 +11,9 @@ import {useNavigate} from "react-router-dom"
 
 export default function SignIn() {
 const navigate = useNavigate();
-useEffect(()=>{
-  if(value===1 && localStorage.getItem("user")!==""){
-    alert("User already logged")
-  }
-},[value])
 
-  const [adminloginfo,setadminloggedin]=useState(true)
+
+  const [adminloginfo,setadminloggedin]=useState(false)
 
   const [loggedIn,setLog]=useState(0)
 
@@ -57,10 +53,11 @@ useEffect(() => {
 }, [loggedIn,navigate]);
 
 useEffect(()=>{
-  if(adminloginfo===true){
+  setTimeout(()=>{if(adminloginfo===true){
     navigate("/attendance")
-  }
-},[adminlog,navigate])
+  }},1000)
+  
+},[adminloginfo,navigate])
   const [value, setValue] = useState(0); // active tab
   const [isRegister, setIsRegister] = useState(false); // login/register toggle
 
@@ -71,7 +68,11 @@ useEffect(()=>{
   const [userConfirmPassword, setUserConfirmPassword] = useState("");
   const [loginfo, logadmininfo] = useState("");
   const [logpass, logadminpass] = useState("");
-  
+  useEffect(()=>{
+    if(value===1 && localStorage.getItem("user")!==""){
+      alert("User already logged")
+    }
+  },[value])
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -80,7 +81,7 @@ useEffect(()=>{
   const logadmin=()=>{
     if(loginfo=="admin" && logpass=="password"){
       localStorage.setItem("admin","admin")
-      setadminloggedin(TRUE)
+      setadminloggedin(true)
     }
   }
   const handleUserRegister = async () => {
