@@ -49,8 +49,9 @@ const navigate = useNavigate();
 useEffect(() => {
   if (loggedIn) navigate("/dashboard");
 }, [loggedIn,navigate]);
+
 useEffect(()=>{
-  if(adminlog==true){
+  if(adminlog){
     navigate("/attendance")
   }
 },[adminlog,navigate])
