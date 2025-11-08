@@ -28,7 +28,7 @@ export default function SendLeaveRequest() {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:3000/req", {
+      const res = await fetch("https://backend-1-e0l1.onrender.com/req", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newReq),

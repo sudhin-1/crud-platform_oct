@@ -29,7 +29,7 @@ function WeeklyAttendance() {
 	navigate("/sign");
   }
 	useEffect(() => {
-		fetch("http://localhost:3000/students")
+		fetch("https://backend-1-e0l1.onrender.com/students")
 		  .then((res) => res.json())
 		  .then((data) => {
 			setUsers(data);
@@ -105,7 +105,7 @@ function WeeklyAttendance() {
 		  )
 		);
 	  
-		fetch(`http://localhost:3000/students/${userId}`, {
+		fetch(`https://backend-1-e0l1.onrender.com/students/${userId}`, {
 		  method: "PATCH",
 		  headers: { "Content-Type": "application/json" },
 		  body: JSON.stringify({

@@ -22,7 +22,7 @@ const navigate = useNavigate();
   
     try {
       const res = await axios.get(
-        `http://localhost:3000/students?email=${userEmail}`
+        `https://backend-1-e0l1.onrender.com/students?email=${userEmail}`
       );
   
       if (res.data.length === 0) {
@@ -77,7 +77,7 @@ useEffect(() => {
     }
 
     try {
-      const res = await axios.post("http://localhost:3000/students", {
+      const res = await axios.post("https://backend-1-e0l1.onrender.com/students", {
         email: userEmail,
         name: userName,
         password: userPassword,

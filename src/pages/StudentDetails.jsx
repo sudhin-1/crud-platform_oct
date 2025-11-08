@@ -14,7 +14,7 @@ export default function StudentDetails() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const stuRes = await fetch(`http://localhost:3000/students/${id}`);
+        const stuRes = await fetch(`https://backend-1-e0l1.onrender.com/students/${id}`);
 
         if (!stuRes.ok) {
           setStudent(null);

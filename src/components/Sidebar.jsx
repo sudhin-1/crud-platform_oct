@@ -7,7 +7,7 @@ export default function Sidebar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:3000/students")
+    axios.get("https://backend-1-e0l1.onrender.com/students")
       .then(res => setStudents(res.data))
       .catch(err => console.error("Error fetching students:", err));
   }, []);

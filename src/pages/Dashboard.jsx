@@ -16,7 +16,7 @@ export default function Dashboard() {
 
     async function fetchStudent() {
       try {
-        const res = await axios.get(`http://localhost:3000/students/${localUser.id}`);
+        const res = await axios.get(`https://backend-1-e0l1.onrender.com/students/${localUser.id}`);
         setStudent(res.data);
       } catch (error) {
         console.error(error);

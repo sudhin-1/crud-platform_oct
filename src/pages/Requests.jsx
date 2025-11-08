@@ -8,12 +8,12 @@ export default function Requests() {
   useEffect(() => {
     async function loadData() {
       try {
-        const res = await fetch("http://localhost:3000/req?_sort=id&_order=desc");
+        const res = await fetch("https://backend-1-e0l1.onrender.com/req?_sort=id&_order=desc");
         const reqData = await res.json();
 
         const updated = await Promise.all(
           reqData.map(async (item) => {
-            const stuRes = await fetch(`http://localhost:3000/students/${item.studentid}`);
+            const stuRes = await fetch(`https://backend-1-e0l1.onrender.com/students/${item.studentid}`);
             const student = await stuRes.json();
             return { ...item, student };
           })
@@ -33,7 +33,7 @@ export default function Requests() {
   async function updateAllowed(id, newValue,stud,date) {
     try {
       // ✅ 1. Update the request
-      await fetch(`http://localhost:3000/req/${id}`, {
+      await fetch(`https://backend-1-e0l1.onrender.com/req/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ allowed: newValue }),
@@ -52,7 +52,7 @@ export default function Requests() {
       const excusedDate = date;
   
       // ✅ 2. Fetch student data
-      const res = await fetch(`http://localhost:3000/students/${studentId}`);
+      const res = await fetch(`https://backend-1-e0l1.onrender.com/students/${studentId}`);
       const student = await res.json();
   
       if (!student) {
@@ -70,7 +70,7 @@ export default function Requests() {
       ];
   
       // ✅ 4. Update student with new attendance
-      await fetch(`http://localhost:3000/students/${studentId}`, {
+      await fetch(`https://backend-1-e0l1.onrender.com/students/${studentId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ attendance: updatedAttendance }),
