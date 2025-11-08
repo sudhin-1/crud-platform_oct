@@ -11,7 +11,13 @@ import {useNavigate} from "react-router-dom"
 
 export default function SignIn() {
 const navigate = useNavigate();
-  const [adminlog,setadminloggedin]=useState(false)
+useEffect(()=>{
+  if(value===1 && localStorage.getItem("user")!==""){
+    alert("User already logged")
+  }
+},[value])
+
+  const [adminlog,setadminloggedin]=useState("NO")
 
   const [loggedIn,setLog]=useState(0)
 
@@ -50,7 +56,7 @@ useEffect(() => {
   if (loggedIn) navigate("/dashboard");
 }, [loggedIn,navigate]);
 useEffect(()=>{
-  if(adminlog==true){
+  if(adminlog=="HMM"){
     navigate("/attendance")
   }
 },[adminlog,navigate])
@@ -73,7 +79,7 @@ useEffect(()=>{
   const logadmin=()=>{
     if(loginfo=="admin" && logpass=="password"){
       localStorage.setItem("admin","admin")
-      setadminloggedin(true)
+      setadminloggedin("HMM")
     }
   }
   const handleUserRegister = async () => {
