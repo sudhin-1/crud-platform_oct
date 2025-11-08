@@ -17,7 +17,7 @@ useEffect(()=>{
   }
 },[value])
 
-  const [adminloginfo,setadminloggedin]=useState(FALSE)
+  const [adminloginfo,setadminloggedin]=useState(true)
 
   const [loggedIn,setLog]=useState(0)
 
@@ -57,7 +57,7 @@ useEffect(() => {
 }, [loggedIn,navigate]);
 
 useEffect(()=>{
-  if(adminloginfo===TRUE){
+  if(adminloginfo===true){
     navigate("/attendance")
   }
 },[adminlog,navigate])
